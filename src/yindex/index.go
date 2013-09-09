@@ -1,14 +1,14 @@
-package roosevelt
+package yindex
 
 import (
-	"leonard"
+	"ynet"
 	"strings"
-	"winston"
+	"ytext"
 )
 
 var theindex index
 
-type indexData map[string]winston.Documents
+type indexData map[string]ytext.Documents
 
 type index struct {
 	data indexData
@@ -24,7 +24,7 @@ func Query(query string) []QueryResult {
 
 	results := make([]QueryResult, 0)
 
-	for _, doc := range winston.TheDocuments {
+	for _, doc := range ytext.TheDocuments {
 		for index := 0; index < len(doc.Sentences)-1; index++ {
 			s := doc.Sentences[index]
 			e := doc.Sentences[index+1]
@@ -47,10 +47,10 @@ func Query(query string) []QueryResult {
 	return results
 }
 
-func (i *index) update(w *winston.Document) {
+func (i *index) update(w *ytext.Document) {
 	for _, gram := range w.Grams {
 		if i.data[gram] == nil {
-			i.data[gram] = make(winston.Documents, 0)
+			i.data[gram] = make(ytext.Documents, 0)
 		}
 
 		i.data[gram] = append(i.data[gram], w)
@@ -58,11 +58,11 @@ func (i *index) update(w *winston.Document) {
 }
 
 func Add(website string) {
-	var d winston.Document
+	var d ytext.Document
 	d.Location = website
-	d.Text = leonard.FetchUrl(website)
+	d.Text = ynet.FetchUrl(website)
 	d.CalcGrams()
-	winston.TheDocuments = append(winston.TheDocuments, d)
+	ytext.TheDocuments = append(ytext.TheDocuments, d)
 	theindex.update(&d)
 }
 

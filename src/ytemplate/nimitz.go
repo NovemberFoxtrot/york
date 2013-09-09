@@ -1,4 +1,4 @@
-package nimitz
+package ytemplate
 
 import (
 	"html/template"

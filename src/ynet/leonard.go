@@ -1,4 +1,4 @@
-package leonard
+package ynet
 
 import (
 	"io/ioutil"

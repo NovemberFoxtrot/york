@@ -1,9 +1,9 @@
 package main
 
 import (
-	"server"
+	"yserver"
 ) 
 
 func main() {
-	server.New()
+	yserver.New()
 }

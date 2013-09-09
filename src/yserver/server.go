@@ -1,14 +1,14 @@
-package server
+package yserver
 
 import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"nimitz"
+	"ytemplate"
 	"os"
-	"roosevelt"
+	"yindex"
 	"sir"
-	"winston"
+	"ytext"
 )
 
 type tv struct {
@@ -17,34 +17,34 @@ type tv struct {
 }
 
 type stv struct {
-	Result roosevelt.QueryResult
+	Result yindex.QueryResult
 	Score  int
 }
 
 func AddHandler(w http.ResponseWriter, r *http.Request) {
-	go roosevelt.Add(r.FormValue("website"))
+	go yindex.Add(r.FormValue("website"))
 	http.Redirect(w, r, "/", http.StatusFound)
 }
 
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	stvs := make([]stv, 0)
 
-	for index, location := range roosevelt.Query(r.FormValue("query")) {
+	for index, location := range yindex.Query(r.FormValue("query")) {
 		stvs = append(stvs, stv{location, index})
 	}
 
-	nimitz.ThePool.Pools["search"].Execute(w, stvs)
+	ytemplate.ThePool.Pools["search"].Execute(w, stvs)
 }
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	tvs := make([]tv, 0)
-	tvs = append(tvs, tv{"Index", roosevelt.IndexDataLen()})
+	tvs = append(tvs, tv{"Index", yindex.IndexDataLen()})
 
-	for i := 0; i < len(winston.TheDocuments); i++ {
-		tvs = append(tvs, tv{winston.TheDocuments[i].Location, len(winston.TheDocuments[i].Grams)})
+	for i := 0; i < len(ytext.TheDocuments); i++ {
+		tvs = append(tvs, tv{ytext.TheDocuments[i].Location, len(ytext.TheDocuments[i].Grams)})
 	}
 
-	nimitz.ThePool.Pools["index"].Execute(w, tvs)
+	ytemplate.ThePool.Pools["index"].Execute(w, tvs)
 }
 
 type Response map[string]interface{}
@@ -64,8 +64,8 @@ func TestHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func New() {
-	nimitz.ThePool.Fill("index", "templates/layout.html", "templates/index.html")
-	nimitz.ThePool.Fill("search", "templates/layout.html", "templates/search.html")
+	ytemplate.ThePool.Fill("index", "templates/layout.html", "templates/index.html")
+	ytemplate.ThePool.Fill("search", "templates/layout.html", "templates/search.html")
 
 	wd, err := os.Getwd()
 	sir.CheckError(err)

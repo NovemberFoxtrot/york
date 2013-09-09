@@ -1,4 +1,4 @@
-package winston
+package ytext
 
 import (
 	"fmt"

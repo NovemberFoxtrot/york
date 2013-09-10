@@ -1,8 +1,8 @@
 package yindex
 
 import (
-	"ynet"
 	"strings"
+	"ynet"
 	"ytext"
 )
 

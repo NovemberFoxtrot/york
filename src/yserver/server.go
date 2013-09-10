@@ -27,6 +27,7 @@ func AddHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
+	ytemplate.ThePool.Fill("search", "templates/layout.html", "templates/search.html")
 	stvs := make([]stv, 0)
 
 	for index, location := range yindex.Query(r.FormValue("query")) {
@@ -37,6 +38,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
+	ytemplate.ThePool.Fill("index", "templates/layout.html", "templates/index.html")
 	tvs := make([]tv, 0)
 	tvs = append(tvs, tv{"Index", yindex.IndexDataLen()})
 

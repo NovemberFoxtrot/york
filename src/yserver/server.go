@@ -3,11 +3,12 @@ package yserver
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
-	"ytemplate"
 	"os"
-	"yindex"
 	"sir"
+	"yindex"
+	"ytemplate"
 	"ytext"
 )
 
@@ -29,6 +30,11 @@ func AddHandler(w http.ResponseWriter, r *http.Request) {
 func MediaHandler(w http.ResponseWriter, r *http.Request) {
 	ytemplate.ThePool.Fill("media", "templates/layout.html", "templates/media.html")
 	ytemplate.ThePool.Pools["media"].Execute(w, nil)
+}
+
+func HomeHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println(r.URL)
+	http.ServeFile(w, r, "/magic/" + r.URL.String()[len(`/images/`):])
 }
 
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
@@ -82,6 +88,7 @@ func New() {
 
 	http.HandleFunc("/", IndexHandler)
 	http.HandleFunc("/add", AddHandler)
+	http.HandleFunc("/images/", HomeHandler)
 	http.HandleFunc("/media", MediaHandler)
 	http.HandleFunc("/search", SearchHandler)
 	http.HandleFunc("/test", TestHandler)

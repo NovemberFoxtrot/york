@@ -26,8 +26,14 @@ func AddHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusFound)
 }
 
+func MediaHandler(w http.ResponseWriter, r *http.Request) {
+	ytemplate.ThePool.Fill("media", "templates/layout.html", "templates/media.html")
+	ytemplate.ThePool.Pools["media"].Execute(w, nil)
+}
+
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	ytemplate.ThePool.Fill("search", "templates/layout.html", "templates/search.html")
+
 	stvs := make([]stv, 0)
 
 	for index, location := range yindex.Query(r.FormValue("query")) {
@@ -39,6 +45,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	ytemplate.ThePool.Fill("index", "templates/layout.html", "templates/index.html")
+
 	tvs := make([]tv, 0)
 	tvs = append(tvs, tv{"Index", yindex.IndexDataLen()})
 
@@ -67,6 +74,7 @@ func TestHandler(w http.ResponseWriter, r *http.Request) {
 
 func New() {
 	ytemplate.ThePool.Fill("index", "templates/layout.html", "templates/index.html")
+	ytemplate.ThePool.Fill("media", "templates/layout.html", "templates/media.html")
 	ytemplate.ThePool.Fill("search", "templates/layout.html", "templates/search.html")
 
 	wd, err := os.Getwd()
@@ -74,8 +82,9 @@ func New() {
 
 	http.HandleFunc("/", IndexHandler)
 	http.HandleFunc("/add", AddHandler)
-	http.HandleFunc("/test", TestHandler)
+	http.HandleFunc("/media", MediaHandler)
 	http.HandleFunc("/search", SearchHandler)
+	http.HandleFunc("/test", TestHandler)
 
 	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir(wd+`/public`))))
 

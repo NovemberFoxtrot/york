@@ -3,7 +3,6 @@ package yserver
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"sir"
@@ -33,7 +32,6 @@ func MediaHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	log.Println(r.URL)
 	http.ServeFile(w, r, "/magic/" + r.URL.String()[len(`/images/`):])
 }
 

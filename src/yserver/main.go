@@ -93,6 +93,6 @@ func New() {
 
 	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir(wd+`/public`))))
 
-	err = http.ListenAndServe(":9090", nil)
+	err = http.ListenAndServe(":6969", nil)
 	yeasy.CheckError(err)
 }

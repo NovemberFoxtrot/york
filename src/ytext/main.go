@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"math"
 	"regexp"
-	"sir"
 	"strings"
 	"unicode"
+	"yeasy"
 )
 
 type Documents []*Document
@@ -76,13 +76,13 @@ func (w1 *Document) Pearson(w2 *Document) float64 {
 
 func (w *Document) CleanText() {
 	asciiregexp, err := regexp.Compile("[^A-Za-z ]+")
-	sir.CheckError(err)
+	yeasy.CheckError(err)
 
 	tagregexp, err := regexp.Compile("<[^>]+>")
-	sir.CheckError(err)
+	yeasy.CheckError(err)
 
 	spaceregexp, err := regexp.Compile("[ ]+")
-	sir.CheckError(err)
+	yeasy.CheckError(err)
 
 	w.SafeText = tagregexp.ReplaceAllString(w.Text, " ")
 	w.SafeText = asciiregexp.ReplaceAllString(w.SafeText, " ")

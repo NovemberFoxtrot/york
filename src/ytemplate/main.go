@@ -2,7 +2,7 @@ package ytemplate
 
 import (
 	"html/template"
-	"sir"
+	"yeasy"
 )
 
 var ThePool Pool
@@ -18,7 +18,7 @@ func render(filenames ...string) *template.Template {
 	t.Delims("//", "//")
 
 	t, err := t.ParseFiles(filenames...)
-	sir.CheckError(err)
+	yeasy.CheckError(err)
 
 	return t
 }

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"sir"
+	"yeasy"
 	"yindex"
 	"ytemplate"
 	"ytext"
@@ -32,7 +32,7 @@ func MediaHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "/magic/" + r.URL.String()[len(`/images/`):])
+	http.ServeFile(w, r, "/magic/"+r.URL.String()[len(`/images/`):])
 }
 
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
@@ -65,7 +65,7 @@ type Response map[string]interface{}
 func (r Response) String() string {
 	b, err := json.Marshal(r)
 
-	sir.CheckError(err)
+	yeasy.CheckError(err)
 
 	return string(b)
 }
@@ -82,7 +82,7 @@ func New() {
 	ytemplate.ThePool.Fill("search", "templates/layout.html", "templates/search.html")
 
 	wd, err := os.Getwd()
-	sir.CheckError(err)
+	yeasy.CheckError(err)
 
 	http.HandleFunc("/", IndexHandler)
 	http.HandleFunc("/add", AddHandler)
@@ -94,5 +94,5 @@ func New() {
 	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir(wd+`/public`))))
 
 	err = http.ListenAndServe(":9090", nil)
-	sir.CheckError(err)
+	yeasy.CheckError(err)
 }

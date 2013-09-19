@@ -7,7 +7,7 @@ import (
 	_ "image/png"
 	"log"
 	"os"
-	"sir"
+	"yeasy"
 )
 
 func identical(source, target image.Image) bool {
@@ -34,11 +34,11 @@ func identical(source, target image.Image) bool {
 
 func compare(source, target string) bool {
 	sourcefile, err := os.Open(source)
-	sir.CheckError(err)
+	yeasy.CheckError(err)
 	defer sourcefile.Close()
 
 	targetfile, err := os.Open(target)
-	sir.CheckError(err)
+	yeasy.CheckError(err)
 	defer targetfile.Close()
 
 	sourceimage, _, err := image.Decode(sourcefile)

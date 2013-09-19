@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"sir"
 	"time"
+	"yeasy"
 )
 
 type Config struct {
@@ -34,7 +34,7 @@ func FetchUrl(theurl string) string {
 
 	if proxy := os.Getenv("http_proxy"); proxy != `` {
 		proxyUrl, err := url.Parse(proxy)
-		sir.CheckError(err)
+		yeasy.CheckError(err)
 
 		transport := http.Transport{
 			Dial:  TimeoutDialer(5*time.Second, 5*time.Second), // connect, read/write
@@ -47,15 +47,15 @@ func FetchUrl(theurl string) string {
 	}
 
 	req, err := http.NewRequest(`GET`, theurl, nil)
-	sir.CheckError(err)
+	yeasy.CheckError(err)
 
 	resp, err := client.Do(req)
-	sir.CheckError(err)
+	yeasy.CheckError(err)
 
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
-	sir.CheckError(err)
+	yeasy.CheckError(err)
 
 	return string(body)
 }

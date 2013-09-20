@@ -1,8 +1,6 @@
 package yserver
 
 import (
-	"encoding/json"
-	"fmt"
 	"net/http"
 	"os"
 	"yeasy"
@@ -60,27 +58,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	ytemplate.ThePool.Pools["index"].Execute(w, tvs)
 }
 
-type Response map[string]interface{}
-
-func (r Response) String() string {
-	b, err := json.Marshal(r)
-
-	yeasy.CheckError(err)
-
-	return string(b)
-}
-
-func TestHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	fmt.Fprint(w, Response{"success": true, "message": "Hello!"})
-	return
-}
-
 func New() {
-	ytemplate.ThePool.Fill("index", "templates/layout.html", "templates/index.html")
-	ytemplate.ThePool.Fill("media", "templates/layout.html", "templates/media.html")
-	ytemplate.ThePool.Fill("search", "templates/layout.html", "templates/search.html")
-
 	wd, err := os.Getwd()
 	yeasy.CheckError(err)
 
@@ -89,7 +67,6 @@ func New() {
 	http.HandleFunc("/images/", HomeHandler)
 	http.HandleFunc("/media", MediaHandler)
 	http.HandleFunc("/search", SearchHandler)
-	http.HandleFunc("/test", TestHandler)
 
 	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir(wd+`/public`))))
 

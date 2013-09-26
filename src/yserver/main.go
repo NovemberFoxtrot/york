@@ -29,8 +29,8 @@ func MediaHandler(w http.ResponseWriter, r *http.Request) {
 	ytemplate.ThePool.Pools["media"].Execute(w, nil)
 }
 
-func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "/magic/"+r.URL.String()[len(`/images/`):])
+func ImageHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "/public/img/"+r.URL.String()[len(`/images/`):])
 }
 
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
@@ -64,12 +64,12 @@ func New() {
 
 	http.HandleFunc("/", IndexHandler)
 	http.HandleFunc("/add", AddHandler)
-	http.HandleFunc("/images/", HomeHandler)
+	http.HandleFunc("/images/", ImageHandler)
 	http.HandleFunc("/media", MediaHandler)
 	http.HandleFunc("/search", SearchHandler)
 
 	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir(wd+`/public`))))
 
-	err = http.ListenAndServe(":6969", nil)
+	err = http.ListenAndServe(":9999", nil)
 	yeasy.CheckError(err)
 }
